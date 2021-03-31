@@ -1,0 +1,205 @@
+basePath: /api
+definitions:
+  models.User:
+    properties:
+      userEMail:
+        example: d.venturini@gmail.com
+        type: string
+      userName:
+        example: Davide Venturini
+        type: string
+    type: object
+  response.JSONBadRequest:
+    properties:
+      code:
+        example: 400
+        type: integer
+      data:
+        type: object
+      message:
+        example: Wrong parameter
+        type: string
+    type: object
+  response.JSONIntServerErrReqResult:
+    properties:
+      code:
+        example: 500
+        type: integer
+      data:
+        type: object
+      message:
+        example: Error Database
+        type: string
+    type: object
+  response.JSONSuccessResult:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data:
+        type: object
+      message:
+        example: Success
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: dventurini@swagger.io
+    name: API Support
+  description: Un semplice servizio demo per la gestione degli utenti
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Users API
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get details of all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get details of all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create new user
+      parameters:
+      - description: Create User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create a new user with the input paylod
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove user based on given id
+      operationId: user-by-userid
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Remove user based on given id
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: get detail by ID
+      operationId: get-user-detail-by-userid
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONSuccessResult'
+            - properties:
+                code:
+                  type: integer
+                data:
+                  $ref: '#/definitions/models.User'
+                message:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONBadRequest'
+            - properties:
+                code:
+                  type: integer
+                message:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.JSONIntServerErrReqResult'
+            - properties:
+                code:
+                  type: integer
+                message:
+                  type: string
+              type: object
+      summary: Retrieves user based on given id
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update user based on given id
+      operationId: user-by-userid
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Update user based on given id
+      tags:
+      - users
+swagger: "2.0"
